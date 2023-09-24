@@ -4,6 +4,13 @@
 ### ✅ To do
 
 
-#### Player
+#### 🧛🏻 Player
 - [ ] movement
+- [ ] shoot
 
+#### else
+- [ ] inventory
+- [ ] 
+
+#### server
+- [ ]
