@@ -4,7 +4,7 @@
 ### ✅ To do
 
 
-#### - 🧛🏻 Player
+- #### 🧛🏻 Player
 - [ ] movement
 - [ ] shoot
 
