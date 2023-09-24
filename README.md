@@ -4,13 +4,15 @@
 ### ✅ To do
 
 
-- #### 🧛🏻 Player
+#### 🧛🏻 Player
 - [ ] movement
 - [ ] shoot
 
+
 #### else
 - [ ] inventory
-- [ ] 
+- [ ] settings
+
 
 #### server
-- [ ]
+- [ ] Riptide or Photon or Mirror
