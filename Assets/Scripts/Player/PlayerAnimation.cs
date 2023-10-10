@@ -4,44 +4,115 @@ using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
 {
-	private Animator mAnimator;
+    /*
+	 * Walking
+	 * Running
+	 * Crouching
+	 * AimingH
+	 * AimingR
+	 * Sooting  T
+	 * Die      T
+	 * Hit      T
+	 * Jumping  T
+	 */
 
-	void Start()
-	{
-		mAnimator = gameObject.GetComponent<Animator>();
-	}
+    private Animator mAnimator;
+    public int GunNum = 0;  //0:handgun  1:rifle 
+
+    void Start()
+    {
+        mAnimator = gameObject.GetComponent<Animator>();
+    }
     private void Update()
     {
-		MovingAnim();
-		//ShootingAnim();
-		IdleAnim();
+        Shoot();
+        Aim();
+        Walk();
+        Crouching();
+        Jump();
     }
 
-    public void MovingAnim()
+    public void Shoot()
     {
-		if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !(mAnimator.GetBool("Running")) && !(mAnimator.GetBool("Walking")) && !(mAnimator.GetBool("Crouching")))
         {
-			mAnimator.SetBool("Walking", true);
-			mAnimator.SetBool("Shooting", false);
-			mAnimator.SetBool("Idle", false);
+            mAnimator.SetTrigger("Shooting");
         }
     }
-	public void ShootingAnim()
+    public void Aim()
     {
-		if (Input.GetKeyDown(KeyCode.Mouse0))
-		{
-			mAnimator.SetBool("Shooting", true);
-			mAnimator.SetBool("Walking", false);
-			mAnimator.SetBool("Idle", false);
-		}
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            switch (GunNum)
+            {
+                case 0:
+                    mAnimator.SetBool("AimingH", true);
+                    break;
+                case 1:
+                    mAnimator.SetBool("AimingR", true);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        else
+        {
+            mAnimator.SetBool("AimingH", false);
+            mAnimator.SetBool("AimingR", false);
+
+        }
     }
-	public void IdleAnim()
+    public void Walk()
     {
-		if (!(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKeyDown(KeyCode.Mouse0)))
-		{
-			mAnimator.SetBool("Shooting", false);
-			mAnimator.SetBool("Walking", false);
-			mAnimator.SetBool("Idle", true);
-		}
-	}
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        {
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                mAnimator.SetBool("Running", true);
+            }
+            else
+            {
+                mAnimator.SetBool("Running", false);
+                mAnimator.SetBool("Walking", true);
+            }
+        }
+        else
+        {
+            mAnimator.SetBool("Running", false);
+            mAnimator.SetBool("Walking", false);
+        }
+    }
+    public void Crouching()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+        {
+            mAnimator.SetTrigger("Crouch");
+        }
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+        {
+            mAnimator.SetBool("Crouching", true);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            mAnimator.SetBool("Crouching", false);
+        }
+    }
+    public void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            mAnimator.SetTrigger("Jumping");
+        }
+    }
+    public void Die()
+    {
+        mAnimator.SetTrigger("Die");
+    }
+    public void Hit()
+    {
+        mAnimator.SetTrigger("Hit");
+    }
+
+
 }
